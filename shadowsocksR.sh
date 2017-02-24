@@ -9,7 +9,7 @@ export PATH
 #   Thanks: @Teddysun <i@teddysun.com>                            #
 #   Intro:  https://www.91yun.org/archives/2079                   #
 #=================================================================#
-rm -f SSR
+rm -f shadowsocksR.sh
 clear
 clear
 echo -e "\033[34m================================================================\033[0m
