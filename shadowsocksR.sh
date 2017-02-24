@@ -269,21 +269,24 @@ function install_ss(){
         /etc/init.d/shadowsocks start
         clear
         echo
-        echo "Congratulations, ShadowsocksR install completed!"
-        echo -e "Server IP: \033[41;37m ${IP} \033[0m"
-        echo -e "Server Port: \033[41;37m ${shadowsocksport} \033[0m"
-        echo -e "Password: \033[41;37m ${shadowsockspwd} \033[0m"
-        echo -e "Protocol: \033[41;37m auth_sha1_v2 \033[0m"
-        echo -e "obfs: \033[41;37m tls1.2_ticket_auth \033[0m"
-        echo -e "Encryption Method: \033[41;37m chacha20 \033[0m"
-        echo "Welcome to visit:https://www.91yun.org/archives/2079"
-        echo "If you want to change protocol & obfs, reference URL:"
+        echo "恭喜你，shadowsocksR安装完成！"
+        echo -e "服务器IP: \033[41;37m ${IP} \033[0m"
+        echo -e "远程连接端口: \033[41;37m ${shadowsocksport} \033[0m"
+        echo -e "远程连接密码: \033[41;37m ${shadowsockspwd} \033[0m"
+        echo -e "本地监听IP: \033[41;37m 127.0.0.1 \033[0m"
+        echo -e "本地监听端口: \033[41;37m 1080 \033[0m"
+        echo -e "认证方式: \033[41;37m auth_sha1 \033[0m"
+        echo -e "协议: \033[41;37m http_simple \033[0m"
+        echo -e "加密方式: \033[41;37m chacha20 \033[0m"
+        echo
+        echo 
+        echo "如果你想改变认证方式和协议，请参考网址"
         echo "https://github.com/breakwa11/shadowsocks-rss/wiki/Server-Setup"
         echo
-        echo "Enjoy it!"
+        echo "安装完毕！去享受这种愉悦感把！"
         echo
     else
-        echo "Shadowsocks install failed!"
+        echo "Shadowsocks安装失败!"
         install_cleanup
         exit 1
     fi
