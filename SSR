@@ -306,12 +306,13 @@ function install_cleanup(){
   #  rm -rf shadowsocks-manyuser
     rm -f libsodium-1.0.11.tar.gz
     rm -rf libsodium-1.0.11
+    rm -rf SSR
 }
 
 
 # Uninstall ShadowsocksR
 function uninstall_shadowsocks(){
-    printf "Are you sure uninstall ShadowsocksR? (y/n) "
+    printf "你确定卸载ShadowsocksR吗? (y/n) "
     printf "\n"
     read -p "(Default: n):" answer
     if [ -z $answer ]; then
