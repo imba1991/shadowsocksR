@@ -14,7 +14,7 @@ clear
 clear
 echo -e "\033[34m================================================================\033[0m
 
-\033[31m                欢迎使用SSR免流Or翻墙一键脚本                         \033[0m
+\033[31m                欢迎使用SSR一键脚本                         \033[0m
 
 
 \033[31m                            即将开始搭建...                   \033[0m
@@ -101,7 +101,7 @@ function pre_install(){
     while true
     do
     echo -e "请输入SSR连接端口,不设置将默认8080端口:"
-    read -p "(默认自动设置SS免流端口为8080):" shadowsocksport
+    read -p "(默认自动设置SSR端口为8080):" shadowsocksport
     [ -z "$shadowsocksport" ] && shadowsocksport="8080"
     expr $shadowsocksport + 0 &>/dev/null
     if [ $? -eq 0 ]; then
@@ -217,22 +217,25 @@ function firewall_set(){
 function config_shadowsocks(){
     cat > /etc/shadowsocks.json<<-EOF
 {
-    "server": "0.0.0.0",
-    "server_ipv6": "::",
-    "server_port": ${shadowsocksport},
-    "local_address": "127.0.0.1",
-    "local_port": 1081,
-    "password": "${shadowsockspwd}",
-    "timeout": 120,
-    "udp_timeout": 60,
-    "method": "chacha20",
-    "protocol": "auth_sha1_v2_compatible",
+    "server":"0.0.0.0",
+    "server_ipv6": "[::]",
+    "local_address":"127.0.0.1",
+    "local_port":1080,
+	"port_password":{
+        "53":"admin0000",
+        "80":"admin0000",
+        "138":"admin0000",
+        "443":"admin0000",
+        "8080":"admin0000"
+    },
+    "timeout":300,
+    "method":"chacha20",
+    "protocol": "auth_sha1_compatible",
     "protocol_param": "",
-    "obfs": "tls1.2_ticket_auth_compatible",
+    "obfs": "http_simple_compatible",
     "obfs_param": "",
-    "dns_ipv6": false,
-    "connect_verbose_info": 1,
     "redirect": "",
+    "dns_ipv6": false,
     "fast_open": false,
     "workers": 1
 
