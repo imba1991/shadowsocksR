@@ -9,7 +9,7 @@ export PATH
 #   Thanks: @Teddysun <i@teddysun.com>                            #
 #   Intro:  https://www.91yun.org/archives/2079                   #
 #=================================================================#
-rm -f shadowsocksR.sh
+
 clear
 clear
 echo -e "\033[34m================================================================\033[0m
@@ -302,6 +302,7 @@ function install_ss(){
 # Install cleanup
 function install_cleanup(){
     cd $cur_dir
+    rm -f shadowsocksR.sh
     rm -f manyuser.zip
     rm -rf shadowsocks-manyuser
     rm -f libsodium-1.0.11.tar.gz
