@@ -93,7 +93,7 @@ function pre_install(){
     [ -z "$shadowsockspwd" ] && shadowsockspwd="admin0000"
     echo
     echo "---------------------------"
-    echo "password = $shadowsockspwd"
+    echo "密码 = $shadowsockspwd"
     echo "---------------------------"
     echo
     # Set ShadowsocksR config port
@@ -107,7 +107,7 @@ function pre_install(){
         if [ $shadowsocksport -ge 1 ] && [ $shadowsocksport -le 65535 ]; then
             echo
             echo "---------------------------"
-            echo "port = $shadowsocksport"
+            echo "端口 = $shadowsocksport"
             echo "---------------------------"
             echo
             break
@@ -129,7 +129,7 @@ function pre_install(){
         stty $SAVEDSTTY
     }
     echo
-    echo "请按下回车键继续or按 Ctrl+C 退出"
+    echo "请按下回车键继续或按 Ctrl+C 退出"
     char=`get_char`
     # Install necessary dependencies
     if [ "$OS" == 'CentOS' ]; then
