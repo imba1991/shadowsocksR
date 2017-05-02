@@ -145,7 +145,7 @@ function pre_install(){
 # Download files
 function download_files(){
     # Download libsodium file
-    if ! wget --no-check-certificate -O libsodium-1.0.12.tar.gz https://github.com/jedisct1/libsodium/releases/download/1.0.12/libsodium-1.0.12.tar.gz; then
+    if ! wget --no-check-certificate -O libsodium-1.0.12.tar.gz https://github.com/luvis12/shadowsocksR/raw/master/libsodium-1.0.12.tar.gz.gz; then
         echo "Failed to download libsodium file!"
         exit 1
     fi
