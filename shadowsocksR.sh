@@ -33,7 +33,7 @@ fi
 # Make sure only root can run our script
 function rootness(){
     if [[ $EUID -ne 0 ]]; then
-       echo "Error:This script must be run as root!" 1>&2
+       echo "错误：请在root用户下执行此脚本！" 1>&2
        exit 1
     fi
 }
@@ -47,7 +47,7 @@ function checkos(){
     elif [ ! -z "`cat /etc/issue | grep Ubuntu`" ];then
         OS='Ubuntu'
     else
-        echo "Not support OS, Please reinstall OS and retry!"
+        echo "不支持该系统版本，请更换系统后再试！"
         exit 1
     fi
 }
@@ -85,9 +85,10 @@ fi
 function pre_install(){
     # Not support CentOS 5
     if centosversion 5; then
-        echo "Not support CentOS 5, please change OS to CentOS 6+/Debian 7+/Ubuntu 12+ and retry."
+        echo "不支持CentOS 5, 请更换CentOS 6+/Debian 7+/Ubuntu 12+ 然后再试！"
         exit 1
     fi
+    echo "完成以下密码/端口设置开始 SSR 安装!"
     echo -e "请输入SSR连接密码:"
     read -p "(默认密码: admin0000):" shadowsockspwd
     [ -z "$shadowsockspwd" ] && shadowsockspwd="admin0000"
@@ -132,6 +133,8 @@ function pre_install(){
     echo "请按下回车键继续或按 Ctrl+C 退出"
     char=`get_char`
     # Install necessary dependencies
+    echo "正在完成基本库安装....."
+    
     if [ "$OS" == 'CentOS' ]; then
         yum install -y wget unzip openssl-devel gcc swig python python-devel python-setuptools autoconf libtool libevent git ntpdate
         yum install -y m2crypto automake make curl curl-devel zlib-devel perl perl-devel cpio expat-devel gettext-devel
@@ -141,12 +144,13 @@ function pre_install(){
     fi
     cd $cur_dir
 }
-
+   echo "成基本库安装完成！"
 # Download files
 function download_files(){
     # Download libsodium file
+        echo "正在下载 libsodium 文件！"
     if ! wget --no-check-certificate -O libsodium-1.0.12.tar.gz https://github.com/luvis12/shadowsocksR/raw/master/libsodium-1.0.12.tar.gz.gz; then
-        echo "Failed to download libsodium file!"
+        echo " libsodium 文件下载失败！"
         exit 1
     fi
     # Download ShadowsocksR file
@@ -155,23 +159,24 @@ function download_files(){
         # exit 1
     # fi
     # Download ShadowsocksR chkconfig file
+    echo "正在下载 ShadowsocksR chkconfig file！"
     if [ "$OS" == 'CentOS' ]; then
         if ! wget --no-check-certificate https://raw.githubusercontent.com/luvis12/shadowsocksR/master/shadowsocksR -O /etc/init.d/shadowsocks; then
-            echo "Failed to download ShadowsocksR chkconfig file!"
+            echo " ShadowsocksR chkconfig file下载失败！ "
             exit 1
         fi
     else
         if ! wget --no-check-certificate https://raw.githubusercontent.com/luvis12/shadowsocksR/master/shadowsocksR-debian -O /etc/init.d/shadowsocks; then
-            echo "Failed to download ShadowsocksR chkconfig file!"
+            echo " ShadowsocksR chkconfig file下载失败！ "
             exit 1
         fi
     fi
 }
 
 # firewall set
+   echo "正在设置防火墙..."
 function firewall_set(){
-    echo "firewall set start..."
-    if centosversion 6; then
+        if centosversion 6; then
         /etc/init.d/iptables status > /dev/null 2>&1
         if [ $? -eq 0 ]; then
             iptables -L -n | grep '${shadowsocksport}' | grep 'ACCEPT' > /dev/null 2>&1
@@ -181,10 +186,10 @@ function firewall_set(){
                 /etc/init.d/iptables save
                 /etc/init.d/iptables restart
             else
-                echo "port ${shadowsocksport} has been set up."
+                echo "端口 ${shadowsocksport} 已成功开通！"
             fi
         else
-            echo "WARNING: iptables looks like shutdown or not installed, please manually set it if necessary."
+            echo "WARNING: 防火墙已关闭或未安装, 请手动安装！"
         fi
     elif centosversion 7; then
         systemctl status firewalld > /dev/null 2>&1
@@ -202,17 +207,18 @@ function firewall_set(){
 					/etc/init.d/iptables save
 					/etc/init.d/iptables restart
 				else
-					echo "port ${shadowsocksport} has been set up."
+					echo "端口 ${shadowsocksport} 已成功开通！"
 				fi
 			else
-				echo "WARNING: firewall like shutdown or not installed, please manually set it if necessary."
+				echo "WARNING: WARNING: 防火墙已关闭或未安装, 请手动安装！""
 			fi		
         fi
     fi
-    echo "firewall set completed..."
+    echo "防火墙设置完成..."
 }
 
 # Config ShadowsocksR
+ echo "正在设置shadowsocks.json......."
 function config_shadowsocks(){
     cat > /etc/shadowsocks.json<<-EOF
 {
@@ -227,7 +233,7 @@ function config_shadowsocks(){
 	"method": "chacha20",
 	"protocol": "auth_sha1_v4_compatible",
 	"protocol_param": "",
-	"obfs": "tls1.2_ticket_auth_compatible",
+	"obfs": "http_simple_compatible",
 	"obfs_param": "",
 	"dns_ipv6": false,
 	"connect_verbose_info": 1,
@@ -239,7 +245,10 @@ function config_shadowsocks(){
 EOF
 }
 
+  echo "shadowsocks.json 设置完成....."
+  
 # Install ShadowsocksR
+echo "正在安装 libsodium....."
 function install_ss(){
     # Install libsodium
     tar zxf libsodium-1.0.12.tar.gz
@@ -250,11 +259,13 @@ function install_ss(){
     # Install ShadowsocksR
     cd $cur_dir
     # unzip -q manyuser.zip
+    echo "正在获取源代码....."
     # mv shadowsocks-manyuser/shadowsocks /usr/local/
 	git clone https://github.com/shadowsocksr/shadowsocksr.git /usr/local/shadowsocks
     if [ -f /usr/local/shadowsocks/server.py ]; then
         chmod +x /etc/init.d/shadowsocks
-        # Add run on system start up
+        echo "源代码获取成功....."
+	# Add run on system start up
         if [ "$OS" == 'CentOS' ]; then
             chkconfig --add shadowsocks
             chkconfig shadowsocks on
@@ -262,6 +273,7 @@ function install_ss(){
             update-rc.d -f shadowsocks defaults
         fi
         # Run ShadowsocksR in the background
+	echo "ShadowsocksR后台启动....."
         /etc/init.d/shadowsocks start
         clear
         echo
@@ -308,7 +320,7 @@ function install_cleanup(){
 
 # Uninstall ShadowsocksR
 function uninstall_shadowsocks(){
-    printf "Are you sure uninstall ShadowsocksR? (y/n) "
+    printf "确定卸载 ShadowsocksR 吗？ (y/n) "
     printf "\n"
     read -p "(Default: n):" answer
     if [ -z $answer ]; then
@@ -328,9 +340,9 @@ function uninstall_shadowsocks(){
         rm -f /etc/shadowsocks.json
         rm -f /etc/init.d/shadowsocks
         rm -rf /usr/local/shadowsocks
-        echo "ShadowsocksR uninstall success!"
+        echo "ShadowsocksR 已成功卸载！"
     else
-        echo "uninstall cancelled, Nothing to do"
+        echo "卸载失败！"
     fi
 }
 
