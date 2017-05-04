@@ -320,7 +320,7 @@ function install_cleanup(){
 
 # Uninstall ShadowsocksR
 function uninstall_shadowsocks(){
-    printf "确定卸载 ShadowsocksR 吗？ (y/n) "
+    printf "Are you sure uninstall ShadowsocksR? (y/n) "
     printf "\n"
     read -p "(Default: n):" answer
     if [ -z $answer ]; then
