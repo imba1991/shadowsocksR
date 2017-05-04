@@ -170,7 +170,7 @@ function download_files(){
 
 # firewall set
 function firewall_set(){
-    echo "firewall set start..."
+    echo "正在设置防火墙..."
     if centosversion 6; then
         /etc/init.d/iptables status > /dev/null 2>&1
         if [ $? -eq 0 ]; then
@@ -209,7 +209,7 @@ function firewall_set(){
 			fi		
         fi
     fi
-    echo "firewall set completed..."
+    echo "防火墙设置完成..."
 }
 
 # Config ShadowsocksR
