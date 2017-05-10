@@ -227,7 +227,7 @@ function config_shadowsocks(){
 	"method": "chacha20",
 	"protocol": "auth_sha1_v4_compatible",
 	"protocol_param": "",
-	"obfs": "http_simple_compatible",
+	"obfs": "tls1.2_ticket_auth_compatible",
 	"obfs_param": "",
 	"dns_ipv6": false,
 	"connect_verbose_info": 1,
