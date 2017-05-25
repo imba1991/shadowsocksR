@@ -270,7 +270,7 @@ function install_ss(){
         echo -e "远程连接密码: \033[41;37m ${shadowsockspwd} \033[0m"
         echo -e "本地监听IP: \033[41;37m 127.0.0.1 \033[0m"
         echo -e "本地监听端口: \033[41;37m 1080 \033[0m"
-        echo -e "认证方式: \033[41;37m auth_sha1 \033[0m"
+        echo -e "认证方式: \033[41;37m auth_sha1_v4 \033[0m"
         echo -e "协议: \033[41;37m http_simple \033[0m"
         echo -e "加密方式: \033[41;37m chacha20 \033[0m"
         echo
