@@ -220,13 +220,15 @@ function config_shadowsocks(){
     "server_ipv6": "[::]",
     "local_address":"127.0.0.1",
     "local_port":1080,
-    "port_password":{
+	"port_password":{
+        "53":"admin0000",
         "80":"admin0000",
-	"8080":"admin0000",
-        "443":"admin0000"
+        "138":"admin0000",
+        "443":"admin0000",
+        "8080":"admin0000"
     },
     "timeout":300,
-    "method":"aes-256-cfb",
+    "method":"chacha20",
     "protocol": "auth_sha1_compatible",
     "protocol_param": "",
     "obfs": "http_simple_compatible",
