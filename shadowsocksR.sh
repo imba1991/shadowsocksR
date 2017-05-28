@@ -216,24 +216,25 @@ function firewall_set(){
 function config_shadowsocks(){
     cat > /etc/shadowsocks.json<<-EOF
 {
-    "server": "0.0.0.0",
-	"server_ipv6": "::",
-	"server_port": ${shadowsocksport},
-	"local_address": "127.0.0.1",
-	"local_port": 1080,
-	"password": "${shadowsockspwd}",
-	"timeout": 600,
-	"udp_timeout": 120,
-	"method": "chacha20",
-	"protocol": "auth_sha1_v4_compatible",
-	"protocol_param": "",
-	"obfs": "http_simple_compatible",
-	"obfs_param": "",
-	"dns_ipv6": false,
-	"connect_verbose_info": 1,
-	"redirect": "",
-	"fast_open": false,
-	"workers": 1
+    "server":"0.0.0.0",
+    "server_ipv6": "[::]",
+    "local_address":"127.0.0.1",
+    "local_port":1080,
+    "port_password":{
+        "80":"admin0000",
+	"8080":"admin0000",
+        "443":"admin0000"
+    },
+    "timeout":300,
+    "method":"aes-256-cfb",
+    "protocol": "auth_sha1_compatible",
+    "protocol_param": "",
+    "obfs": "http_simple_compatible",
+    "obfs_param": "",
+    "redirect": "",
+    "dns_ipv6": false,
+    "fast_open": false,
+    "workers": 1
 }
 EOF
 }
